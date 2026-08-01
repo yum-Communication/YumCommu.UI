@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="Example.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Example"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:y="using:YumCommu.UI"
+    mc:Ignorable="d"
+    Title="Example">
+
+  <Window.SystemBackdrop>
+    <MicaBackdrop />
+  </Window.SystemBackdrop>
+
+  <y:SideBar x:Name="MainSideBar" IsMenuResizable="True">
+    <y:SideBar.PropertyPanel>
+      <StackPanel Width="240" Padding="12" Spacing="8">
+        <TextBlock Text="プロパティ" Style="{StaticResource SubtitleTextBlockStyle}"/>
+      </StackPanel>
+    </y:SideBar.PropertyPanel>
+    <y:SideBar.Items>
+      <y:SideBarItem>
+        <y:SideBarItem.Icon>
+          <y:SideBarIcon ToolTip="File">
+            <SymbolIcon Symbol="Document"/>
+          </y:SideBarIcon>
+        </y:SideBarItem.Icon>
+        <y:SideBarItem.Panel>
+          <y:WrapPanel Direction="LeftToRight" SubDirection="Normal" JustifyContent="Stretch" AlignItems="Start" AlignContent="Start">
+            <Button AutomationProperties.AutomationId="BtnFileOpen" Height="56" MinWidth="136" MaxWidth="320" HorizontalAlignment="Stretch">
+              <StackPanel Orientation="Vertical">
+                <SymbolIcon Symbol="OpenFile" />
+                <TextBlock Text="プロジェクトを開く" Margin="4,4,4,4" HorizontalAlignment="Center"/>
+              </StackPanel>
+            </Button>
+            <Button AutomationProperties.AutomationId="BtnFileSave" Height="56" MinWidth="136" MaxWidth="320" HorizontalAlignment="Stretch">
+              <StackPanel Orientation="Vertical">
+                <SymbolIcon Symbol="Save" />
+                <TextBlock Text="プロジェクトを保存" Margin="4,4,4,4" HorizontalAlignment="Center"/>
+              </StackPanel>
+            </Button>
+            <Button AutomationProperties.AutomationId="BtnFileSaveAs" Height="56" MinWidth="136" MaxWidth="320" HorizontalAlignment="Stretch">
+              <StackPanel Orientation="Vertical">
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe792;"/>
+                <TextBlock Text="名前を付けて保存" Margin="4,4,4,4" HorizontalAlignment="Center" />
+              </StackPanel>
+            </Button>
+          </y:WrapPanel>
+        </y:SideBarItem.Panel>
+      </y:SideBarItem>
+      <y:SideBarItem>
+        <y:SideBarItem.Icon>
+          <y:SideBarIcon ToolTip="Edit" >
+            <SymbolIcon Symbol="Edit"/>
+          </y:SideBarIcon>
+        </y:SideBarItem.Icon>
+      </y:SideBarItem>
+      <y:SideBarItem>
+        <y:SideBarItem.Icon>
+          <y:SideBarIcon ToolTip="View">
+            <SymbolIcon Symbol="PreviewLink"/>
+          </y:SideBarIcon>
+        </y:SideBarItem.Icon>
+        <y:SideBarItem.Panel>
+          <y:WrapPanel Direction="LeftToRight" SubDirection="Normal" JustifyContent="Stretch" AlignItems="Start" AlignContent="Start">
+            <Button AutomationProperties.AutomationId="BtnToggleProperties" Height="56" MinWidth="136" MaxWidth="320" HorizontalAlignment="Stretch" Click="BtnToggleProperties_Click">
+              <StackPanel Orientation="Vertical">
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xee40;"/>
+                <TextBlock Text="プロパティ" Margin="4,4,4,4" HorizontalAlignment="Center"/>
+              </StackPanel>
+            </Button>
+          </y:WrapPanel>
+        </y:SideBarItem.Panel>
+      </y:SideBarItem>
+    </y:SideBar.Items>
+  </y:SideBar>
+</Window>

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "yummcomu.ui.sidebar (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "yummcomu.ui.sidebar (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
