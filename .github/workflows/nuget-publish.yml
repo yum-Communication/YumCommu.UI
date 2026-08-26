@@ -7,8 +7,8 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
-    
+    runs-on: windows-latest
+
     permissions:
       contents: read
       id-token: write # OIDC認証のために必須の設定
@@ -22,16 +22,25 @@ jobs:
         with:
           dotnet-version: '10.0.x' # 利用する.NETのバージョンを指定
 
+      # NuGet キャッシュの設定（ビルド時間削減）
+      - name: Cache NuGet Packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
       # 1. パッケージの復元
       - name: Restore dependencies
         run: dotnet restore
 
       # 2. パッケージのビルドと作成 (.nupkg)
       - name: Pack NuGet package for SideBar
-        run: dotnet pack YumCommu.UI.SideBar/YumCommu.UI.SideBar.csproj --configuration Release --runtime win-x64 --output ./nupkg
+        run: dotnet pack YumCommu.UI.SideBar/YumCommu.UI.SideBar.csproj --configuration Release --runtime win-x64 --no-restore --output ./nupkg
 
       - name: Pack NuGet package for WrapPanel
-        run: dotnet pack YumCommu.UI.WrapPanel/YumCommu.UI.WrapPanel.csproj --configuration Release --runtime win-x64 --output ./nupkg
+        run: dotnet pack YumCommu.UI.WrapPanel/YumCommu.UI.WrapPanel.csproj --configuration Release --runtime win-x64 --no-restore --output ./nupkg
 
       # 3. OIDCを利用して一時的なNuGet APIキーを取得
       - name: NuGet Login
