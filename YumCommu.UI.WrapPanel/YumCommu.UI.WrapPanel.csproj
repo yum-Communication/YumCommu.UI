@@ -24,6 +24,16 @@
     <Packaged>false</Packaged>
     <Packaged Condition="'$(Configuration)' == 'Debug-Packaged' Or '$(Configuration)' == 'Release-Packaged'">true</Packaged>
     <LangVersion>preview</LangVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>yum communication, Ishina Yum</Authors>
+    <Description>WrapPanel conrol for WinUI3</Description>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageTags>.NET WinUI3</PackageTags>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/yum-Communication/YumCommu.UI</PackageProjectUrl>
+    <Copyright>Copyright ©2026 yum communication Co. Ltd.</Copyright>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Packaged)' != 'true'">
@@ -48,6 +58,9 @@
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nuget\readme.md" pack="true" PackagePath="\" />
   </ItemGroup>
 
   <!--
