@@ -6,7 +6,6 @@
     <TargetPlatformMinVersion>10.0.22621.0</TargetPlatformMinVersion>
     <SupportedOSPlatformVersion>10.0.22621.0</SupportedOSPlatformVersion>
     <Platforms>x86;x64;ARM64</Platforms>
-    <PlatformTarget>x64</PlatformTarget>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <AssemblyName>Example</AssemblyName>
     <RootNamespace>Example</RootNamespace>
@@ -25,6 +24,7 @@
     <Packaged>false</Packaged>
     <Packaged Condition="'$(Configuration)' == 'Debug-Packaged' Or '$(Configuration)' == 'Release-Packaged'">true</Packaged>
     <LangVersion>preview</LangVersion>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Packaged)' != 'true'">

@@ -27,8 +27,11 @@ jobs:
         run: dotnet restore
 
       # 2. パッケージのビルドと作成 (.nupkg)
-      - name: Pack NuGet package
-        run: dotnet pack --configuration Release --output ./nupkg
+      - name: Pack NuGet package for SideBar
+        run: dotnet pack YumCommu.UI.SideBar/YumCommu.UI.SideBar.csproj --configuration Release --runtime win-x64 --output ./nupkg
+
+      - name: Pack NuGet package for WrapPanel
+        run: dotnet pack YumCommu.UI.WrapPanel/YumCommu.UI.WrapPanel.csproj --configuration Release --runtime win-x64 --output ./nupkg
 
       # 3. OIDCを利用して一時的なNuGet APIキーを取得
       - name: NuGet Login
