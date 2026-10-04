@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "yummcomu.ui.recordgrid (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "yummcomu.ui.recordgrid (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

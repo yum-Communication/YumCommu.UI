@@ -1,14 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
 
     <TargetFramework>net10.0-windows10.0.22621.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.22621.0</TargetPlatformMinVersion>
     <SupportedOSPlatformVersion>10.0.22621.0</SupportedOSPlatformVersion>
     <Platforms>x86;x64;ARM64</Platforms>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
-    <AssemblyName>Example</AssemblyName>
-    <RootNamespace>Example</RootNamespace>
+    <AssemblyName>YumCommu.UI.RecordGrid</AssemblyName>
+    <RootNamespace>YumCommu.UI</RootNamespace>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <PublishProfile>win-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
@@ -24,7 +24,17 @@
     <Packaged>false</Packaged>
     <Packaged Condition="'$(Configuration)' == 'Debug-Packaged' Or '$(Configuration)' == 'Release-Packaged'">true</Packaged>
     <LangVersion>preview</LangVersion>
-    <IsPackable>false</IsPackable>
+    <GeneratePackageOnBuild  Condition="'$(Configuration)' == 'Debug-Packaged' Or '$(Configuration)' == 'Debug'">false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild  Condition="'$(Configuration)' == 'Release-Packaged' Or '$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
+    <Authors>yum communication, Ishina Yum</Authors>
+    <Description>RecordGrid conrol for WinUI3</Description>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageTags>.NET WinUI3</PackageTags>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/yum-Communication/YumCommu.UI</PackageProjectUrl>
+    <Copyright>Copyright ©2026 yum communication Co. Ltd.</Copyright>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Packaged)' != 'true'">
@@ -37,19 +47,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.4.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1839" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.2.0" />
     <Manifest Include="$(ApplicationManifest)" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 
   <!--
@@ -61,9 +62,12 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\YumCommu.Ui.RecordGrid\YumCommu.Ui.RecordGrid.csproj" />
-    <ProjectReference Include="..\YumCommu.Ui.SideBar\YumCommu.Ui.SideBar.csproj" />
-    <ProjectReference Include="..\YumCommu.UI.WrapPanel\YumCommu.UI.WrapPanel.csproj" />
+    <None Include="nuget\readme.md" pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
   </ItemGroup>
 
   <!--
@@ -73,13 +77,5 @@
   -->
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
-  </PropertyGroup>
-
-  <!-- Publish Properties -->
-  <PropertyGroup>
-    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
-    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
-    <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
-    <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
   </PropertyGroup>
 </Project>

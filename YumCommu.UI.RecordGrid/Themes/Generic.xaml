@@ -1,0 +1,33 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:YumCommu.UI"
+    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml">
+
+  <Style TargetType="local:RecordGrid" >
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="local:RecordGrid">
+          <Grid x:Name="PART_Grid" Background="AliceBlue"
+                HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                Visibility="{TemplateBinding Visibility}">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*"/>
+              <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+
+            <canvas:CanvasControl x:Name="PART_Canvas" Grid.Row="0" Grid.Column="0" Background="{TemplateBinding Background}">
+            </canvas:CanvasControl>
+            <ScrollBar x:Name="PART_ScrollBar_H" Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Visibility="Visible" Background="Blue" />
+            <ScrollBar x:Name="PART_ScrollBar_V" Grid.Row="0" Grid.Column="1" Orientation="Vertical" Visibility="Visible"/>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</ResourceDictionary>

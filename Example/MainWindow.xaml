@@ -50,6 +50,7 @@
           </y:WrapPanel>
         </y:SideBarItem.Panel>
       </y:SideBarItem>
+
       <y:SideBarItem>
         <y:SideBarItem.Icon>
           <y:SideBarIcon ToolTip="Edit" >
@@ -57,6 +58,7 @@
           </y:SideBarIcon>
         </y:SideBarItem.Icon>
       </y:SideBarItem>
+
       <y:SideBarItem>
         <y:SideBarItem.Icon>
           <y:SideBarIcon ToolTip="View">
@@ -75,5 +77,13 @@
         </y:SideBarItem.Panel>
       </y:SideBarItem>
     </y:SideBar.Items>
+
+    <y:SideBar.Content>
+      <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="12" Spacing="8">
+        <TextBlock Text="コンテンツ" Style="{StaticResource SubtitleTextBlockStyle}"/>
+        <y:RecordGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="400" Visibility="Visible" Background="Cyan"/>
+      </StackPanel>
+    </y:SideBar.Content>
+
   </y:SideBar>
 </Window>
