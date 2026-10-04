@@ -24,7 +24,8 @@
     <Packaged>false</Packaged>
     <Packaged Condition="'$(Configuration)' == 'Debug-Packaged' Or '$(Configuration)' == 'Release-Packaged'">true</Packaged>
     <LangVersion>preview</LangVersion>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild  Condition="'$(Configuration)' == 'Debug-Packaged' Or '$(Configuration)' == 'Debug'">false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild  Condition="'$(Configuration)' == 'Release-Packaged' Or '$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
     <Authors>yum communication, Ishina Yum</Authors>
     <Description>SideBar conrol for WinUI3</Description>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
