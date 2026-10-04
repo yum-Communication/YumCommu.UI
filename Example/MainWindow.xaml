@@ -79,10 +79,14 @@
     </y:SideBar.Items>
 
     <y:SideBar.Content>
-      <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="12" Spacing="8">
-        <TextBlock Text="コンテンツ" Style="{StaticResource SubtitleTextBlockStyle}"/>
-        <y:RecordGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="400" Visibility="Visible" Background="Cyan"/>
-      </StackPanel>
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <y:RecordGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Visible"/>
+        <TextBlock Grid.Row="1" Text="© 2024 YumCommu" HorizontalAlignment="Center" Margin="0,8,0,8"/>
+      </Grid>
     </y:SideBar.Content>
 
   </y:SideBar>
