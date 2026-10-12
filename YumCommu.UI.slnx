@@ -10,6 +10,16 @@
     <Platform Solution="*|x86" Project="x86" />
     <Deploy />
   </Project>
+  <Project Path="TestRecordGrid/TestRecordGrid.csproj" Id="3909abca-6096-447f-95f6-6bb5ad6a9a66">
+    <Platform Solution="*|ARM64" Project="ARM64" />
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="UITestRecordGrid/UITestRecordGrid.csproj" Id="077fb3b4-9f57-4123-bec2-299d1618a411">
+    <Platform Solution="*|ARM64" Project="ARM64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+    <Deploy />
+  </Project>
   <Project Path="YumCommu.UI.RecordGrid/YumCommu.UI.RecordGrid.csproj">
     <Platform Solution="*|ARM64" Project="ARM64" />
     <Platform Solution="*|x64" Project="x64" />

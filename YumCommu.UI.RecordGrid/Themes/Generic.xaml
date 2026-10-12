@@ -14,11 +14,11 @@
                 Visibility="{TemplateBinding Visibility}">
             <Grid.RowDefinitions>
               <RowDefinition Height="*"/>
-              <RowDefinition Height="20"/>
+              <RowDefinition Height="{TemplateBinding HorizontalScrollBarHeight}"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*"/>
-              <ColumnDefinition Width="20"/>
+              <ColumnDefinition Width="{TemplateBinding VerticalScrollBarWidth}"/>
             </Grid.ColumnDefinitions>
 
             <canvas:CanvasControl x:Name="PART_Canvas" Grid.Row="0" Grid.Column="0" Background="{TemplateBinding Background}">

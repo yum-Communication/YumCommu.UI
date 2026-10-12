@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "TestRecordGrid (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "TestRecordGrid (Unpackaged)": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

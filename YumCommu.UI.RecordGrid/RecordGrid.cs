@@ -11,6 +11,10 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
 
+// TESTプロジェクトから内部クラスにアクセスできるようにするための属性
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("TestRecordGrid")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("UITestRecordGrid")]
+
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
@@ -19,6 +23,44 @@ namespace YumCommu.UI;
 public sealed partial class RecordGrid: Control {
 
 	private CanvasControl? _canvas;
+
+	/// <summary>
+	/// 縦スクロールバーの幅
+	/// </summary>
+	public double VerticalScrollBarWidth {
+		get => (double)GetValue(VerticalScrollBarWidthProperty);
+		set => SetValue(VerticalScrollBarWidthProperty, value);
+	}
+
+	/// <summary>
+	/// 縦スクロールバーの幅（依存関係プロパティ）
+	/// </summary>
+	public static readonly DependencyProperty VerticalScrollBarWidthProperty =
+		DependencyProperty.Register(
+			nameof(VerticalScrollBarWidth),
+			typeof(double),
+			typeof(RecordGrid),
+			new PropertyMetadata(20.0));
+
+	/// <summary>
+	/// 横スクロールバーの高さ
+	/// </summary>
+	public double HorizontalScrollBarHeight {
+		get => (double)GetValue(HorizontalScrollBarHeightProperty);
+		set => SetValue(HorizontalScrollBarHeightProperty, value);
+	}
+
+
+	/// <summary>
+	/// 横スクロールバーの高さ（依存関係プロパティ）
+	/// </summary>
+	public static readonly DependencyProperty HorizontalScrollBarHeightProperty =
+		DependencyProperty.Register(
+			nameof(HorizontalScrollBarHeight),
+			typeof(double),
+			typeof(RecordGrid),
+			new PropertyMetadata(20.0));
+
 
 	/// <summary>
 	/// コンストラクタ
