@@ -65,5 +65,7 @@ public sealed partial class RecordGrid: Control {
 
 		//DrawDial(args.DrawingSession, center, radius);
 		//DrawHands(args.DrawingSession, center, radius, DateTime.Now);
+
+		DrawHeader(args.DrawingSession, width);
 	}
 }
