@@ -32,6 +32,7 @@ public sealed partial class RecordGrid: Control {
 		DefaultStyleKey = typeof(RecordGrid);
 		InitializeColumns();
 		InitializeData();
+		InitializeScroll();
 		ColumnsChanged += (_, _) => _canvas?.Invalidate();
 	}
 
@@ -41,6 +42,7 @@ public sealed partial class RecordGrid: Control {
 	protected override void OnApplyTemplate() {
 		base.OnApplyTemplate();
 
+		DetachScrollParts();
 		if (_canvas is not null) {
 			_canvas.Draw -= Canvas_Draw;
 		}
@@ -51,6 +53,7 @@ public sealed partial class RecordGrid: Control {
 			_canvas.Draw += Canvas_Draw;
 			_canvas.Invalidate();
 		}
+		AttachScrollParts();
 	}
 
 

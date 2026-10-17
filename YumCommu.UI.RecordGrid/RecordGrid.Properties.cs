@@ -66,7 +66,7 @@ public partial class RecordGrid {
 			nameof(HeaderHeight),
 			typeof(double),
 			typeof(RecordGrid),
-			new PropertyMetadata(30.0, OnHeaderLayoutChanged));
+			new PropertyMetadata(30.0, OnScrollLayoutChanged));
 
 	/// <summary>
 	/// 水平スクロールオフセット (ピクセル)
@@ -84,7 +84,7 @@ public partial class RecordGrid {
 			nameof(HorizontalOffset),
 			typeof(double),
 			typeof(RecordGrid),
-			new PropertyMetadata(0.0, OnHeaderLayoutChanged));
+			new PropertyMetadata(0.0, OnScrollOffsetChanged));
 
 	/// <summary>
 	/// 行の高さ (ピクセル)
@@ -102,7 +102,7 @@ public partial class RecordGrid {
 			nameof(RowHeight),
 			typeof(double),
 			typeof(RecordGrid),
-			new PropertyMetadata(28.0, OnHeaderLayoutChanged));
+			new PropertyMetadata(28.0, OnScrollLayoutChanged));
 
 	/// <summary>
 	/// 垂直スクロールオフセット (ピクセル)
@@ -120,7 +120,7 @@ public partial class RecordGrid {
 			nameof(VerticalOffset),
 			typeof(double),
 			typeof(RecordGrid),
-			new PropertyMetadata(0.0, OnHeaderLayoutChanged));
+			new PropertyMetadata(0.0, OnScrollOffsetChanged));
 
 	/// <summary>
 	/// 表示する行オブジェクトの集合。IList の場合は複製せず参照し、それ以外は設定時のスナップショットを保持する。
