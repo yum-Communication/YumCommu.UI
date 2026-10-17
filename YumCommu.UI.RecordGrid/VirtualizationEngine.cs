@@ -1,21 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace YumCommu.UI;
 
 
-internal class VirtualizationEngine(double height, int count) {
+/// <summary>
+/// 行高から表示範囲を計算します。
+/// </summary>
+internal class VirtualizationEngine {
+	private readonly Dictionary<int, double> _rowHeights = new();
+	private double _defaultRowHeight;
+	private int _totalRowCount;
 
 	/// <summary>
 	/// デフォルトの行の高さを設定します。これは、行の高さが不明な場合に使用されます。
 	/// </summary>
-	public double DefaultRowHeight { get; set; } = height;
+	public double DefaultRowHeight {
+		get => _defaultRowHeight;
+		set {
+			if (!double.IsFinite(value) || value <= 0) {
+				throw new ArgumentOutOfRangeException(nameof(value));
+			}
+			_defaultRowHeight = value;
+		}
+	}
 
 	/// <summary>
 	/// 表示するデータの総行数を設定します。これにより、仮想化エンジンはスクロール位置に基づいて正しい行をレンダリングできます。
 	/// </summary>
-	public int TotalRowCount { get; set; } = count;
+	public int TotalRowCount {
+		get => _totalRowCount;
+		set {
+			if (value < 0) {
+				throw new ArgumentOutOfRangeException(nameof(value));
+			}
+			if (value < _totalRowCount) {
+				for (int i = value; i < _totalRowCount; i++) {
+					_rowHeights.Remove(i);
+				}
+			}
+			_totalRowCount = value;
+		}
+	}
 
 	/// <summary>
 	/// 総行数と各行の高さに基づいて、すべての行の合計高さを計算します。これにより、スクロールバーのサイズやスクロール位置の計算に使用できます。
@@ -30,8 +56,13 @@ internal class VirtualizationEngine(double height, int count) {
 		}
 	}
 
-	private Dictionary<int, double> _rowHeights = new();
-
+	/// <summary>
+	/// 既定行高と総行数を設定します。
+	/// </summary>
+	public VirtualizationEngine(double height, int count) {
+		DefaultRowHeight = height;
+		TotalRowCount = count;
+	}
 
 	/// <summary>
 	/// コンストラクタでは、デフォルトの行の高さと総行数を初期化します。
@@ -46,8 +77,12 @@ internal class VirtualizationEngine(double height, int count) {
 	/// <param name="rowIndex">行のインデックス</param>
 	/// <param name="height">行の高さ</param>
 	public void SetRowHeight(int rowIndex, double height) {
-		// ここでは、特定の行の高さを設定するロジックを実装します。
-		// 例えば、行の高さを保持するデータ構造を使用して、指定された行の高さを更新します。
+		if (rowIndex < 0 || rowIndex >= TotalRowCount) {
+			throw new ArgumentOutOfRangeException(nameof(rowIndex));
+		}
+		if (!double.IsFinite(height) || height <= 0) {
+			throw new ArgumentOutOfRangeException(nameof(height));
+		}
 		_rowHeights[rowIndex] = height;
 	}
 
@@ -58,30 +93,31 @@ internal class VirtualizationEngine(double height, int count) {
 	/// <param name="scrollOffset">スクロールオフセット</param>
 	/// <param name="viewportHeight">ビューポートの高さ</param>
 	/// <returns>開始インデックスと終了インデックスのタプル</returns>
-	public (int StartIndex, int EndIndex, double SubHeight) GetVisibleRange(double scrollOffset, double viewportHeight) {
-		// スクロール位置から開始インデックスを計算する
-		if (scrollOffset < 0) {
-			scrollOffset = 0;
+	public (int StartIndex, int EndIndex, double OffsetWithinFirstRow) GetVisibleRange(double scrollOffset, double viewportHeight) {
+		if (!double.IsFinite(scrollOffset)) {
+			throw new ArgumentOutOfRangeException(nameof(scrollOffset));
 		}
+		if (!double.IsFinite(viewportHeight) || viewportHeight < 0) {
+			throw new ArgumentOutOfRangeException(nameof(viewportHeight));
+		}
+		if (TotalRowCount == 0 || viewportHeight == 0) {
+			return (0, 0, 0);
+		}
+
+		// スクロール位置から開始インデックスを計算する
+		scrollOffset = Math.Clamp(scrollOffset, 0, Math.Max(0, TotalHeight - viewportHeight));
 		double accumulatedHeight = 0;
 		int startIndex = 0;
-		double subHeight = 0;
-		bool found = false;
+		double offsetWithinFirstRow = 0;
 
 		for (int i = 0; i < TotalRowCount; i++) {
 			double rowHeight = _rowHeights.TryGetValue(i, out var customHeight)	? customHeight : DefaultRowHeight;
 			if (accumulatedHeight + rowHeight > scrollOffset) {
 				startIndex = i;
-				subHeight = scrollOffset - accumulatedHeight;
-				found = true;
+				offsetWithinFirstRow = scrollOffset - accumulatedHeight;
 				break;
 			}
 			accumulatedHeight += rowHeight;
-		}
-
-		if (!found) {
-			int last = Math.Max(0, TotalRowCount - 1);
-			return (last, last, 0);
 		}
 
 		// 終了インデックスを計算する
@@ -90,10 +126,10 @@ internal class VirtualizationEngine(double height, int count) {
 			double rowHeight = _rowHeights.TryGetValue(i, out var customHeight) ? customHeight : DefaultRowHeight;
 			accumulatedHeight += rowHeight;
 			if (accumulatedHeight >= Y) {
-				return (startIndex, i, subHeight);
+				return (startIndex, i + 1, offsetWithinFirstRow);
 			}
 		}
 
-		return (startIndex, TotalRowCount, subHeight);
+		return (startIndex, TotalRowCount, offsetWithinFirstRow);
 	}
 }
