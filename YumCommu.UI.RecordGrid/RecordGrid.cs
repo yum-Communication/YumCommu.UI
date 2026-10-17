@@ -31,6 +31,7 @@ public sealed partial class RecordGrid: Control {
 	public RecordGrid() {
 		DefaultStyleKey = typeof(RecordGrid);
 		InitializeColumns();
+		InitializeData();
 		ColumnsChanged += (_, _) => _canvas?.Invalidate();
 	}
 
@@ -66,6 +67,7 @@ public sealed partial class RecordGrid: Control {
 		//DrawDial(args.DrawingSession, center, radius);
 		//DrawHands(args.DrawingSession, center, radius, DateTime.Now);
 
+		DrawRows(args.DrawingSession, width, height);
 		DrawHeader(args.DrawingSession, width);
 	}
 }

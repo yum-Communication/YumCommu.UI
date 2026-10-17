@@ -17,12 +17,26 @@ using Windows.Foundation.Collections;
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Example {
+
+	internal sealed record Person(int Id, string Name, int? Age, string Email);
+
+
 	/// <summary>
 	/// An empty window that can be used on its own or navigated to within a Frame.
 	/// </summary>
 	public sealed partial class MainWindow: Window {
 		public MainWindow() {
 			InitializeComponent();
+
+			RecordGrid.ItemsSource = new List<Person> {
+				new Person(1, "Alice", 30, "alice@example.com"),
+				new Person(2, "Bob", 25, "bob@example.com"),
+				new Person(3, "Charlie", 35, "charlie@example.com")
+			};
+			RecordGrid.Columns[0].ValueGetter = r => ((Person)r).Id;
+			RecordGrid.Columns[1].ValueGetter = r => ((Person)r).Name;
+			RecordGrid.Columns[2].ValueGetter = r => ((Person)r).Age;
+			RecordGrid.Columns[3].ValueGetter = r => ((Person)r).Email;
 		}
 
 		/// <summary>

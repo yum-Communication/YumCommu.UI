@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -48,6 +49,106 @@ public partial class RecordGrid {
 			typeof(RecordGrid),
 			new PropertyMetadata(20.0));
 
+
+	/// <summary>
+	/// 列ヘッダの高さ
+	/// </summary>
+	public double HeaderHeight {
+		get => (double)GetValue(HeaderHeightProperty);
+		set => SetValue(HeaderHeightProperty, value);
+	}
+
+	/// <summary>
+	/// 列ヘッダの高さ（依存関係プロパティ）
+	/// </summary>
+	public static readonly DependencyProperty HeaderHeightProperty =
+		DependencyProperty.Register(
+			nameof(HeaderHeight),
+			typeof(double),
+			typeof(RecordGrid),
+			new PropertyMetadata(30.0, OnHeaderLayoutChanged));
+
+	/// <summary>
+	/// 水平スクロールオフセット (ピクセル)
+	/// </summary>
+	public double HorizontalOffset {
+		get => (double)GetValue(HorizontalOffsetProperty);
+		set => SetValue(HorizontalOffsetProperty, value);
+	}
+
+	/// <summary>
+	/// 水平スクロールオフセット（依存関係プロパティ）
+	/// </summary>
+	public static readonly DependencyProperty HorizontalOffsetProperty =
+		DependencyProperty.Register(
+			nameof(HorizontalOffset),
+			typeof(double),
+			typeof(RecordGrid),
+			new PropertyMetadata(0.0, OnHeaderLayoutChanged));
+
+	/// <summary>
+	/// 行の高さ (ピクセル)
+	/// </summary>
+	public double RowHeight {
+		get => (double)GetValue(RowHeightProperty);
+		set => SetValue(RowHeightProperty, value);
+	}
+
+	/// <summary>
+	/// 行の高さ（依存関係プロパティ）
+	/// </summary>
+	public static readonly DependencyProperty RowHeightProperty =
+		DependencyProperty.Register(
+			nameof(RowHeight),
+			typeof(double),
+			typeof(RecordGrid),
+			new PropertyMetadata(28.0, OnHeaderLayoutChanged));
+
+	/// <summary>
+	/// 垂直スクロールオフセット (ピクセル)
+	/// </summary>
+	public double VerticalOffset {
+		get => (double)GetValue(VerticalOffsetProperty);
+		set => SetValue(VerticalOffsetProperty, value);
+	}
+
+	/// <summary>
+	/// 垂直スクロールオフセット（依存関係プロパティ）
+	/// </summary>
+	public static readonly DependencyProperty VerticalOffsetProperty =
+		DependencyProperty.Register(
+			nameof(VerticalOffset),
+			typeof(double),
+			typeof(RecordGrid),
+			new PropertyMetadata(0.0, OnHeaderLayoutChanged));
+
+	/// <summary>
+	/// 表示する行オブジェクトの集合。IList の場合は複製せず参照し、それ以外は設定時のスナップショットを保持する。
+	/// INotifyCollectionChanged を実装していれば変更に追従する。
+	/// </summary>
+	public IEnumerable? ItemsSource {
+		get => (IEnumerable?)GetValue(ItemsSourceProperty);
+		set => SetValue(ItemsSourceProperty, value);
+	}
+
+	/// <summary>
+	/// 表示する行オブジェクトの集合（依存関係プロパティ）
+	/// </summary>
+	public static readonly DependencyProperty ItemsSourceProperty =
+		DependencyProperty.Register(
+			nameof(ItemsSource),
+			typeof(IEnumerable),
+			typeof(RecordGrid),
+			new PropertyMetadata(null, OnItemsSourceChanged));
+
+	/// <summary>
+	/// ヘッダの配置に関わるプロパティが変更されたときに再描画を要求する。
+	/// </summary>
+	/// <param name="d">変更されたグリッド</param>
+	/// <param name="e">変更の内容</param>
+	private static void OnHeaderLayoutChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+		((RecordGrid)d)._canvas?.Invalidate();
+	}
 
 	/// <summary>
 	/// 列定義のコレクション。追加・削除・列の変更はグリッドの再レイアウト要求として通知される。

@@ -23,8 +23,8 @@
 
             <canvas:CanvasControl x:Name="PART_Canvas" Grid.Row="0" Grid.Column="0" Background="{TemplateBinding Background}">
             </canvas:CanvasControl>
-            <ScrollBar x:Name="PART_ScrollBar_H" Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Visibility="Visible" Background="Blue" />
-            <ScrollBar x:Name="PART_ScrollBar_V" Grid.Row="0" Grid.Column="1" Orientation="Vertical" Visibility="Visible"/>
+            <ScrollBar x:Name="PART_ScrollBar_H" Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Visibility="Visible" />
+            <ScrollBar x:Name="PART_ScrollBar_V" Grid.Row="0" Grid.Column="1" Orientation="Vertical" Visibility="Visible" />
           </Grid>
         </ControlTemplate>
       </Setter.Value>

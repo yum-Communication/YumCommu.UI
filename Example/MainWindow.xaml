@@ -84,7 +84,7 @@
           <RowDefinition Height="*"/>
           <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <y:RecordGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Visible">
+        <y:RecordGrid x:Name="RecordGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Visible">
           <y:RecordGrid.Columns>
             <y:RecordGridColumn Caption="ID" Width="80"/>
             <y:RecordGridColumn Caption="Name" Width="200"/>

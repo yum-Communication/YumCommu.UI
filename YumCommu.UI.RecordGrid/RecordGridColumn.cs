@@ -22,6 +22,7 @@ public class RecordGridColumn: INotifyPropertyChanged {
 	private Brush? _background;
 	private Brush? _foreground;
 	private Func<object, object?>? _valueGetter;
+	private IComparer<object?>? _sortComparer;
 
 	/// <summary>
 	/// プロパティが変更されたときに発生する。
@@ -98,6 +99,14 @@ public class RecordGridColumn: INotifyPropertyChanged {
 	public Func<object, object?>? ValueGetter {
 		get => _valueGetter;
 		set => SetField(ref _valueGetter, value);
+	}
+
+	/// <summary>
+	/// 並べ替えに使用する比較子 (null の場合は値の既定の比較。null 値は昇順で先頭になる)
+	/// </summary>
+	public IComparer<object?>? SortComparer {
+		get => _sortComparer;
+		set => SetField(ref _sortComparer, value);
 	}
 
 	/// <summary>
