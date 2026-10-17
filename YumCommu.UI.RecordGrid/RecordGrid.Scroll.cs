@@ -89,6 +89,7 @@ public sealed partial class RecordGrid {
 		if (_canvas is not null) {
 			_canvas.SizeChanged += OnCanvasSizeChanged;
 		}
+		// 初回はサイズが未確定のため SizeChanged で更新される。テンプレートの再適用時はここで反映される。
 		UpdateScrollBars();
 	}
 
@@ -112,9 +113,10 @@ public sealed partial class RecordGrid {
 	/// <summary>
 	/// 内容とビューポートの大きさに合わせて、スクロールバーの範囲と値を更新する。
 	/// 範囲が縮んでオフセットが範囲外になった場合は最大値に補正する。
+	/// キャンバスのサイズが未確定 (レイアウト前) の場合は何もせず、確定後の SizeChanged で更新される。
 	/// </summary>
 	private void UpdateScrollBars() {
-		if (_canvas is null) {
+		if (_canvas is null || _canvas.ActualWidth <= 0 || _canvas.ActualHeight <= 0) {
 			return;
 		}
 
