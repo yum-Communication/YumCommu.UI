@@ -5,12 +5,59 @@ namespace YumCommu.UI;
 
 
 /// <summary>
-/// 行高から表示範囲を計算します。
+/// 行高と列幅から表示範囲を計算します。
 /// </summary>
 internal class VirtualizationEngine {
 	private readonly Dictionary<int, double> _rowHeights = new();
+	private readonly Dictionary<int, double> _columnWidths = new();
 	private double _defaultRowHeight;
+	private double _defaultColumnWidth;
 	private int _totalRowCount;
+	private int _totalColumnCount;
+
+	/// <summary>
+	/// 個別幅が指定されていない列に使用する幅を設定します。
+	/// </summary>
+	public double DefaultColumnWidth {
+		get => _defaultColumnWidth;
+		set {
+			if (!double.IsFinite(value) || value <= 0) {
+				throw new ArgumentOutOfRangeException(nameof(value));
+			}
+			_defaultColumnWidth = value;
+		}
+	}
+
+	/// <summary>
+	/// 表示するデータの総列数を設定します。
+	/// </summary>
+	public int TotalColumnCount {
+		get => _totalColumnCount;
+		set {
+			if (value < 0) {
+				throw new ArgumentOutOfRangeException(nameof(value));
+			}
+			if (value < _totalColumnCount) {
+				for (int i = value; i < _totalColumnCount; i++) {
+					_columnWidths.Remove(i);
+				}
+			}
+			_totalColumnCount = value;
+		}
+	}
+
+	/// <summary>
+	/// 全列の幅の合計を取得します。
+	/// </summary>
+	public double TotalWidth {
+		get {
+			double totalWidth = 0;
+			for (int i = 0; i < TotalColumnCount; i++) {
+				totalWidth += _columnWidths.TryGetValue(i, out var customWidth) ? customWidth : DefaultColumnWidth;
+			}
+			return totalWidth;
+		}
+	}
 
 	/// <summary>
 	/// デフォルトの行の高さを設定します。これは、行の高さが不明な場合に使用されます。
@@ -59,9 +106,21 @@ internal class VirtualizationEngine {
 	/// <summary>
 	/// 既定行高と総行数を設定します。
 	/// </summary>
-	public VirtualizationEngine(double height, int count) {
+	public VirtualizationEngine(double height, int count): this(height, count, 100, 0) {
+	}
+
+	/// <summary>
+	/// 既定行高、総行数、既定列幅、総列数を設定します。
+	/// </summary>
+	/// <param name="height">既定行高</param>
+	/// <param name="rowCount">総行数</param>
+	/// <param name="width">既定列幅</param>
+	/// <param name="columnCount">総列数</param>
+	public VirtualizationEngine(double height, int rowCount, double width, int columnCount) {
 		DefaultRowHeight = height;
-		TotalRowCount = count;
+		TotalRowCount = rowCount;
+		DefaultColumnWidth = width;
+		TotalColumnCount = columnCount;
 	}
 
 	/// <summary>
@@ -84,6 +143,65 @@ internal class VirtualizationEngine {
 			throw new ArgumentOutOfRangeException(nameof(height));
 		}
 		_rowHeights[rowIndex] = height;
+	}
+
+	/// <summary>
+	/// 指定した列の個別幅を設定します。
+	/// </summary>
+	/// <param name="columnIndex">列のインデックス</param>
+	/// <param name="width">列の幅</param>
+	public void SetColumnWidth(int columnIndex, double width) {
+		if (columnIndex < 0 || columnIndex >= TotalColumnCount) {
+			throw new ArgumentOutOfRangeException(nameof(columnIndex));
+		}
+		if (!double.IsFinite(width) || width <= 0) {
+			throw new ArgumentOutOfRangeException(nameof(width));
+		}
+		_columnWidths[columnIndex] = width;
+	}
+
+	/// <summary>
+	/// 水平スクロール位置とビューポート幅から表示される列の半開区間を計算します。
+	/// </summary>
+	/// <param name="scrollOffset">水平スクロールオフセット</param>
+	/// <param name="viewportWidth">ビューポートの幅</param>
+	/// <returns>開始列、排他的な終了列、先頭列内のオフセット</returns>
+	public (int StartIndex, int EndIndex, double OffsetWithinFirstColumn) GetVisibleColumnRange(double scrollOffset, double viewportWidth) {
+		if (!double.IsFinite(scrollOffset)) {
+			throw new ArgumentOutOfRangeException(nameof(scrollOffset));
+		}
+		if (!double.IsFinite(viewportWidth) || viewportWidth < 0) {
+			throw new ArgumentOutOfRangeException(nameof(viewportWidth));
+		}
+		if (TotalColumnCount == 0 || viewportWidth == 0) {
+			return (0, 0, 0);
+		}
+
+		scrollOffset = Math.Clamp(scrollOffset, 0, Math.Max(0, TotalWidth - viewportWidth));
+		double accumulatedWidth = 0;
+		int startIndex = 0;
+		double offsetWithinFirstColumn = 0;
+
+		for (int i = 0; i < TotalColumnCount; i++) {
+			double columnWidth = _columnWidths.TryGetValue(i, out var customWidth) ? customWidth : DefaultColumnWidth;
+			if (accumulatedWidth + columnWidth > scrollOffset) {
+				startIndex = i;
+				offsetWithinFirstColumn = scrollOffset - accumulatedWidth;
+				break;
+			}
+			accumulatedWidth += columnWidth;
+		}
+
+		double rightEdge = scrollOffset + viewportWidth;
+		for (int i = startIndex; i < TotalColumnCount; i++) {
+			double columnWidth = _columnWidths.TryGetValue(i, out var customWidth) ? customWidth : DefaultColumnWidth;
+			accumulatedWidth += columnWidth;
+			if (accumulatedWidth >= rightEdge) {
+				return (startIndex, i + 1, offsetWithinFirstColumn);
+			}
+		}
+
+		return (startIndex, TotalColumnCount, offsetWithinFirstColumn);
 	}
 
 
