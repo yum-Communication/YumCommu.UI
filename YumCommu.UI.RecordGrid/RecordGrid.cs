@@ -1,4 +1,4 @@
-using Microsoft.Graphics.Canvas.UI.Xaml;
+ï»¿using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
 
-// TESTƒvƒƒWƒFƒNƒg‚©‚ç“à•”ƒNƒ‰ƒX‚ÉƒAƒNƒZƒX‚Å‚«‚é‚æ‚¤‚É‚·‚é‚½‚ß‚Ì‘®«
+// TESTãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰å†…éƒ¨ã‚¯ãƒ©ã‚¹ã«ã‚¢ã‚¯ã‚»ã‚¹ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹ãŸã‚ã®å±æ€§
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("TestRecordGrid")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("UITestRecordGrid")]
 
@@ -24,53 +24,18 @@ public sealed partial class RecordGrid: Control {
 
 	private CanvasControl? _canvas;
 
-	/// <summary>
-	/// cƒXƒNƒ[ƒ‹ƒo[‚Ì•
-	/// </summary>
-	public double VerticalScrollBarWidth {
-		get => (double)GetValue(VerticalScrollBarWidthProperty);
-		set => SetValue(VerticalScrollBarWidthProperty, value);
-	}
 
 	/// <summary>
-	/// cƒXƒNƒ[ƒ‹ƒo[‚Ì•iˆË‘¶ŠÖŒWƒvƒƒpƒeƒBj
-	/// </summary>
-	public static readonly DependencyProperty VerticalScrollBarWidthProperty =
-		DependencyProperty.Register(
-			nameof(VerticalScrollBarWidth),
-			typeof(double),
-			typeof(RecordGrid),
-			new PropertyMetadata(20.0));
-
-	/// <summary>
-	/// ‰¡ƒXƒNƒ[ƒ‹ƒo[‚Ì‚‚³
-	/// </summary>
-	public double HorizontalScrollBarHeight {
-		get => (double)GetValue(HorizontalScrollBarHeightProperty);
-		set => SetValue(HorizontalScrollBarHeightProperty, value);
-	}
-
-
-	/// <summary>
-	/// ‰¡ƒXƒNƒ[ƒ‹ƒo[‚Ì‚‚³iˆË‘¶ŠÖŒWƒvƒƒpƒeƒBj
-	/// </summary>
-	public static readonly DependencyProperty HorizontalScrollBarHeightProperty =
-		DependencyProperty.Register(
-			nameof(HorizontalScrollBarHeight),
-			typeof(double),
-			typeof(RecordGrid),
-			new PropertyMetadata(20.0));
-
-
-	/// <summary>
-	/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
 	public RecordGrid() {
 		DefaultStyleKey = typeof(RecordGrid);
+		InitializeColumns();
+		ColumnsChanged += (_, _) => _canvas?.Invalidate();
 	}
 
 	/// <summary>
-	/// ƒeƒ“ƒvƒŒ[ƒg“K—p‚Ìˆ—
+	/// ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆé©ç”¨æ™‚ã®å‡¦ç†
 	/// </summary>
 	protected override void OnApplyTemplate() {
 		base.OnApplyTemplate();
