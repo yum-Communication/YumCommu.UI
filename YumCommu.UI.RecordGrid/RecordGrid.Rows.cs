@@ -82,6 +82,12 @@ public sealed partial class RecordGrid {
 				};
 			}
 
+			// 罫線は最後の列の右端・最後の行の下端より先へは伸ばさない
+			HeaderCell lastColumn = columnCells[columnCells.Count - 1];
+			RowCell lastRow = rowCells[rowCells.Count - 1];
+			float gridRight = Math.Min(viewportWidth, (float)(lastColumn.X + lastColumn.Width));
+			float gridBottom = Math.Min(headerHeight + bodyHeight, headerHeight + (float)(lastRow.Y + lastRow.Height));
+
 			using (session.CreateLayer(1f, new Rect(0, headerHeight, viewportWidth, bodyHeight))) {
 				foreach (RowCell row in rowCells) {
 					object? record = _view.GetRecord(row.ViewIndex);
@@ -104,14 +110,13 @@ public sealed partial class RecordGrid {
 					}
 
 					float bottom = top + rowHeight - 0.5f;
-					session.DrawLine(0, bottom, viewportWidth, bottom, borderColor);
+					session.DrawLine(0, bottom, gridRight, bottom, borderColor);
 				}
 
 				// 列の右端に縦罫線を引く
-				float bodyBottom = headerHeight + bodyHeight;
 				foreach (HeaderCell cell in columnCells) {
 					float right = (float)(cell.X + cell.Width) - 0.5f;
-					session.DrawLine(right, headerHeight, right, bodyBottom, borderColor);
+					session.DrawLine(right, headerHeight, right, gridBottom, borderColor);
 				}
 			}
 		}
