@@ -61,6 +61,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\YumCommu.Ui.RecordGrid\YumCommu.Ui.RecordGrid.csproj" />
     <ProjectReference Include="..\YumCommu.Ui.SideBar\YumCommu.Ui.SideBar.csproj" />
     <ProjectReference Include="..\YumCommu.UI.WrapPanel\YumCommu.UI.WrapPanel.csproj" />
   </ItemGroup>

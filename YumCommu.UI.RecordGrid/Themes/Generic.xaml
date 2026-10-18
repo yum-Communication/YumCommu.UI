@@ -1,0 +1,39 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:YumCommu.UI"
+    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml">
+
+  <Style TargetType="local:RecordGrid" >
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="VerticalAlignment" Value="Stretch" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="local:RecordGrid">
+          <Grid x:Name="PART_Grid" Background="AliceBlue"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Visibility="{TemplateBinding Visibility}">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*"/>
+              <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <canvas:CanvasControl x:Name="PART_Canvas" Grid.Row="0" Grid.Column="0"
+                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            </canvas:CanvasControl>
+            <ScrollBar x:Name="PART_ScrollBar_H" Grid.Row="1" Grid.Column="0"
+                       Orientation="Horizontal" Visibility="Visible" IndicatorMode="MouseIndicator"
+                       Height="{TemplateBinding HorizontalScrollBarHeight}" HorizontalAlignment="Stretch"/>
+            <ScrollBar x:Name="PART_ScrollBar_V" Grid.Row="0" Grid.Column="1"
+                       Orientation="Vertical" Visibility="Visible" IndicatorMode="MouseIndicator"
+                       Width="{TemplateBinding VerticalScrollBarWidth}" VerticalAlignment="Stretch"/>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</ResourceDictionary>

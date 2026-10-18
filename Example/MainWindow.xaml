@@ -50,6 +50,7 @@
           </y:WrapPanel>
         </y:SideBarItem.Panel>
       </y:SideBarItem>
+
       <y:SideBarItem>
         <y:SideBarItem.Icon>
           <y:SideBarIcon ToolTip="Edit" >
@@ -57,6 +58,7 @@
           </y:SideBarIcon>
         </y:SideBarItem.Icon>
       </y:SideBarItem>
+
       <y:SideBarItem>
         <y:SideBarItem.Icon>
           <y:SideBarIcon ToolTip="View">
@@ -75,5 +77,25 @@
         </y:SideBarItem.Panel>
       </y:SideBarItem>
     </y:SideBar.Items>
+
+    <y:SideBar.Content>
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <y:RecordGrid x:Name="RecordGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Visible"
+                      HorizontalScrollBarHeight="24" VerticalScrollBarWidth="24">
+          <y:RecordGrid.Columns>
+            <y:RecordGridColumn Caption="ID" Width="80"/>
+            <y:RecordGridColumn Caption="Name" Width="200"/>
+            <y:RecordGridColumn Caption="Age" Width="80"/>
+            <y:RecordGridColumn Caption="Email" Width="300"/>
+          </y:RecordGrid.Columns>
+        </y:RecordGrid>
+        <TextBlock Grid.Row="1" Text="© 2026 YumCommu" HorizontalAlignment="Center" Margin="0,8,0,8"/>
+      </Grid>
+    </y:SideBar.Content>
+
   </y:SideBar>
 </Window>

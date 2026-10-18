@@ -1,0 +1,9 @@
+# ファイル変更とコマンド実行時の承認
+approval_policy = "on-request"
+
+# 作業フォルダー内の変更を許可
+sandbox_mode = "workspace-write"
+
+# Windowsネイティブのサンドボックス
+[windows]
+sandbox = "elevated"
